@@ -40,19 +40,6 @@ let connectToMongo= async function(){
   });
   
   
-  
-  /* app.get("/products/add", async (req, res) => {
-  let document = { name: "Test product 3", price: 150 }; 
-  
-  // kommentera bort allt för test
-   let result = await Product.save(document); 
-  
-  console.log("Inne i GET /products/add", result);
-
-
-  
-  res.send(result);
-  }); */
 
     app.get("/products/add/", async (req, res) => {
         let newProduct = new Product();
