@@ -24,6 +24,10 @@ let connectToMongo= async function(){
   let app=express();
   
   app.use(express.json());//---parsar från JSON 
+
+
+  
+  
   app.get("/", (req,res)=>{
     res.send({"test":"testfdf"})
   });
@@ -40,48 +44,42 @@ let connectToMongo= async function(){
   });
   
   
-
-    app.get("/products/add/", async (req, res) => {
-        let newProduct = new Product();
-
-        newProduct.name = "Test OOP";
-        newProduct.price = 123;
-
+  app.get("/products/delete/:id", async (req, res) => { //------------fungerar med ObjectOrienterat----------
+    let product = new Product();
+    let result= await product.deleteOne(req.params.id) // Mongoose
+    
+    res.send(result);
+  });  
+                                                  //------------fungerar med ObjectOrienterat----------
+  app.post("/products/add", async (req, res) => { //-------fungerar i Insomnia-------
+    let data= req.body
+    let newProduct = new Product();
+    newProduct.setupFromDatabase(data)
+     
+      
       let result=  await newProduct.save(); 
-        /* res.send({ message: "Produkt tillagd", product: newProduct }); */
-        res.send(result);
-      });  
-  
-  app.get("/products/:id",async(req,res)=>{    //------------fungerar med ObjectOrienterat----------
-    let id="680d3230cc9be1a673923d3a"  /*  req.params.id  */
-    let product=await Product.getOne(id);
-    res.send(product);  
-  })
-        
-        app.post("/products/",async(req,res)=>{
-          
-          
-        })
-        
-        
-        
-        app.get("/products-with-category", async (req, res) => {
-          
-          
-          
-          
-          const result= await productsCollection.aggregate([
-                {
-                  $lookup: {
-                    from: "categories",
-                    localField: "categoryIds",//---array
-                    foreignField: "_id",
-                    as: "categoryDetails"
-                    }
-                },
-                {
-                  $match: {
-                    "categoryDetails.name": "Shoes"
+      /* res.send({ message: "Produkt tillagd", product: newProduct }); */
+      res.send(result);
+    });  
+    
+    
+    app.get("/products-with-category", async (req, res) => {
+      
+      
+      
+      
+      const result= await productsCollection.aggregate([
+        {
+          $lookup: {
+            from: "categories",
+            localField: "categoryIds",//---array
+            foreignField: "_id",
+            as: "categoryDetails"
+          }
+        },
+        {
+          $match: {
+            "categoryDetails.name": "Shoes"
                     }
                   },
                   {
@@ -97,48 +95,63 @@ let connectToMongo= async function(){
               ).toArray();
               //   console.log(result)
               res.send(result);})
-              
-              
-
-
+    
+    app.post("/products/",async(req,res)=>{
       
-        
-        
-        
-        app.get("/users/", async(req,res)=>{    //------------fungerar med ObjectOrienterat----------
-          try { 
-                   let users = await User.getAll();
-                   res.json(users);
-                 } catch (err) {
-                   console.error(err);
-                   res.status(500).send("Något gick fel vid hämtning av produkter.");
-                 } 
-             });
-
-
-    app.get("/users/:id",async(req,res)=>{    //------------fungerar med ObjectOrienterat----------
-  
-        let id="680d2395cc9be1a673923cf9"  /*  req.params.id  */
-        let user=await User.getOne(id);
-        res.send(user);  
-})
-
-
-app.get("/reviews_oop/",async(req,res)=>{  //------------fungerar med ObjectOrienterat----------
-        
-    try {
-     let reviews = await Review.getAll();
-     res.send(reviews);
-   } catch (err) {
-     console.error(err);
-     res.status(500).send("Något gick fel vid hämtning av produkter.");
+      
+    })
+    
+    app.get("/products/:id",async(req,res)=>{    //------------fungerar med ObjectOrienterat----------
+      let id=  req.params.id 
+      let product=await Product.getOne(id);
+      res.send(product);  
+    })
+    
+    
+    
+    
+              
+              
+              
+              
+              
+              
+              
+              
+              app.get("/users/", async(req,res)=>{    //------------fungerar med ObjectOrienterat----------
+                try { 
+                  let users = await User.getAll();
+                  res.json(users);
+                } catch (err) {
+                  console.error(err);
+                  res.status(500).send("Något gick fel vid hämtning av produkter.");
+                } 
+              });
+              
+              
+              app.get("/users/:id",async(req,res)=>{    //------------fungerar med ObjectOrienterat----------
+                
+                let id="680d2395cc9be1a673923cf9"  /*  req.params.id  */
+                let user=await User.getOne(id);
+                res.send(user);  
+              })
+              
+              
+              app.get("/reviews_oop/",async(req,res)=>{  //------------fungerar med ObjectOrienterat----------
+                
+                try {
+                  let reviews = await Review.getAll();
+                  res.send(reviews);
+                } catch (err) {
+                  console.error(err);
+                  res.status(500).send("Något gick fel vid hämtning av produkter.");
    } 
-});
+  });
+  
+  
 
 
-
-
-app.get("/reviews_oop/:id",async(req,res)=>{    //------------fungerar med ObjectOrienterat----------
+  app.get("/reviews_oop/:id",async(req,res)=>{    //------------fungerar med ObjectOrienterat----------
 let id="6811dd02dbc57c624e4d2ed4"  /*  req.params.id  */
 let review=await Review.getOne(id);
 res.send(review);  
@@ -146,102 +159,101 @@ res.send(review);
 
 app.get("/reviews_by_product/:product_id",async(req,res)=>{
     let productId="680d3230cc9be1a673923d3a"  /*  req.params.id  */
-  let review=await Review.getOneByProduct(productId);
-res.send(review);
-})
-
-
+    let review=await Review.getOneByProduct(productId);
+    res.send(review);
+  })
+  
+  
+  
+  app.get("/reviews_detailed/",async(req,res)=>{   //------------fungerar----------    
     
-    app.get("/reviews_detailed/",async(req,res)=>{   //------------fungerar----------    
-        
-        let detailedReview= await Review.getAllDetailedProductInfo()
-
-        res.send(detailedReview)
-     
-    })
-
-
-    app.get("/orders/",async(req,res)=>{    //------------fungerar ---------- 
-        let orders= await client.findAll("Orders");
-        res.send(orders)
-    })
-
-
-    app.get("/lineitems/", async(req,res)=>{    //-----------fungerar med ObjectOrienterat----------
-     console.log("urlen körs")
-        try { 
-         let lineitems = await LineItem.getAll();
-         res.send(lineitems);
-       } catch (err) {
-         console.error(err);
-         res.status(500).send("Något gick fel vid hämtning av produkter.");
-       } 
-   });
-
-
-    app.get("/lineitems/:id",async(req,res)=>{    //------------fungerar med ObjectOrienterat----------
-        let id="680d3688cc9be1a673923d46"  /*  req.params.id  */
-        let lineitem=await LineItem.getOne(id);
-        res.send(lineitem);  
-    })
-
-
-    app.get("/cart/:order_id",async(req,res)=>{    //---------------------
-        let id="680d3866cc9be1a673923d4a"  /*  req.params.id  */
-        let cart=await Cart.getAllByOrderId(id);
-        
-        res.send(cart);  
-    })
-     
-
-
-
-
-    // let database= client.db("Systemutveckling");
-    // let productsCollection= database.collection("Products");
-    // let query={price:{$gt:260}}
-    //      let products= await productsCollection.find().toArray();-Tomt find() hämtar alla producter
-    // let products= await productsCollection.find(query).toArray();
-    // console.log(products);
-    //      await productsCollection.insertOne({name:"Test product 3", price:150});--lägger till produkter i db
-    // products.map((item)=>{
+    let detailedReview= await Review.getAllDetailedProductInfo()
+    
+    res.send(detailedReview)
+    
+  })
+  
+  
+  app.get("/orders/",async(req,res)=>{    //------------fungerar ---------- 
+    let orders= await client.findAll("orders");
+    res.send(orders)
+  })
+  
+  
+  app.get("/lineitems/", async(req,res)=>{    //-----------fungerar med ObjectOrienterat----------
+    console.log("urlen körs")
+    try { 
+      let lineitems = await LineItem.getAll();
+      res.send(lineitems);
+    } catch (err) {
+      console.error(err);
+      res.status(500).send("Något gick fel vid hämtning av produkter.");
+    } 
+  });
+  
+  
+  app.get("/lineitems/:id",async(req,res)=>{    //------------fungerar med ObjectOrienterat----------
+    let id="680d3688cc9be1a673923d46"  /*  req.params.id  */
+    let lineitem=await LineItem.getOne(id);
+    res.send(lineitem);  
+  })
+  
+  
+  app.get("/cart/:order_id",async(req,res)=>{    //---------------------
+    let id="680d3866cc9be1a673923d4a"  /*  req.params.id  */
+    let cart=await Cart.getAllByOrderId(id);
+    
+    res.send(cart);  
+  })
+  
+  
+  
+  
+  // let database= client.db("Systemutveckling");
+  // let productsCollection= database.collection("Products");
+  // let query={price:{$gt:260}}
+  //      let products= await productsCollection.find().toArray();-Tomt find() hämtar alla producter
+  // let products= await productsCollection.find(query).toArray();
+  // console.log(products);
+  //      await productsCollection.insertOne({name:"Test product 3", price:150});--lägger till produkter i db
+  // products.map((item)=>{
     //     console.log(item.name)
     // })
-
-
-
-   
     
-
-
-   
-
-
+    
+    
+    
+    
+    
+    
+    
+    
+    
     // app.post('/stripe/create-checkout-session-embedded', async (req, res) => {
-    //   try{
-    
+      //   try{
+        
       
-    //   const { order_id,order_items } = req.body;
+      //   const { order_id,order_items } = req.body;
       
-    //   /* console.log(req.body)
-    //   console.log(order_id)
-    //   console.log(order_items) */
-     
-    
+      //   /* console.log(req.body)
+      //   console.log(order_id)
+      //   console.log(order_items) */
       
-    
-    //   const session = await stripe.checkout.sessions.create({
-    //     line_items: order_items.map((item) => ({
-    //       price_data: {
-    //         currency: 'sek',
-    //         product_data: {
-    //           name: item.product_name,
-    //         },
-    //         unit_amount: item.unit_price * 100, // Stripe kräver belopp i öre
-    //       },
-    //       quantity: item.quantity,
-    //     })),
-    //     mode: 'payment',
+      
+      
+      
+      //   const session = await stripe.checkout.sessions.create({
+        //     line_items: order_items.map((item) => ({
+          //       price_data: {
+            //         currency: 'sek',
+            //         product_data: {
+              //           name: item.product_name,
+              //         },
+              //         unit_amount: item.unit_price * 100, // Stripe kräver belopp i öre
+              //       },
+              //       quantity: item.quantity,
+              //     })),
+              //     mode: 'payment',
     //     ui_mode: 'embedded',
     //     return_url: 'http://localhost:5173/order-confirmation?session_id={CHECKOUT_SESSION_ID}',
     //     client_reference_id: String(order_id)/* '123' */
