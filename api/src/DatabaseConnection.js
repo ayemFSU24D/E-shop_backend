@@ -36,14 +36,6 @@ class MongoDBClient {
 
 
 
-  async saveOne(collectionName, document) {
-    await this.connectIfNeeded();
-    const collection = await this.getCollection(collectionName); // 🟢 korrekt
-    const result = await collection.insertOne(document);
-    return result;
-}
-
-
 
   async findAll(collectionName, filter = {}) {
     const collection = await this.getCollection(collectionName);
