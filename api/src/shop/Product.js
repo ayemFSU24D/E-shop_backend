@@ -15,7 +15,7 @@ export default class Product extends DatabaseObject{
       this.status=null;
       this.image=null;
       this.category=null;
-      this.created_at=0;
+      this.created_at = new Date();
 
     }
 
@@ -28,7 +28,7 @@ export default class Product extends DatabaseObject{
         this.stock=data.stock;
         this.category=data.category;
         this.image=data.image;
-        this.created_at=data.created_at;
+        this.created_at=new Date();
         this.status=data.status
     }
 
@@ -37,7 +37,9 @@ export default class Product extends DatabaseObject{
     }
     
     getSaveData() {
-        return {"name": this.name, "price": this.price};
+        return {"name": this.name, "brand": this.brand ,"price": this.price,
+             "description":this.description,"stock":this.stock, "category":this.category,"image":this.image,
+             "created_at":this.created_at,"status":this.status};
     } 
 
 
@@ -61,9 +63,9 @@ export default class Product extends DatabaseObject{
         await product.load(parameter)
         return product;
        }
-
-        
       
+      
+
     
 
 }
