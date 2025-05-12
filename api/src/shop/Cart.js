@@ -1,22 +1,13 @@
 import LineItem from './LineItem.js'
 import { ObjectId } from "mongodb";
+import LineItemsObject from "./LineItemsObject.js";
+/* 
 
 
 export default class Cart extends LineItem{
     constructor(){
         super();
     }
-
-      setupFromDatabase(data) {
-
-        this.product_id = data.product_id;
-    this.quantity = data.quantity;
-    this.unit_price = data.unit_price;
-    this.order_id = data.order_id;
-    this.product_name = data.product_name;
-    this.image = data.image;
-    this.created_at = data.created_at; 
-}
 
 
     getCollection() {
@@ -60,15 +51,35 @@ export default class Cart extends LineItem{
             total_cartPrice
         };
     }
-
-
-    
-
-                
- }
+             
+ } */
 
 
    ///////////////////// GET LineItems By Order Id  --AETODO
                //-- använd funktionen getbyParameter
    /////////////  GET Total Price By Order Id  --AETODO
 
+
+
+
+   //---------------------------------------Ny----------------------------------
+
+
+
+export default class Cart extends LineItemsObject {
+    constructor() {
+        super();
+    }
+
+    getCollection() {
+        return "carts";
+    }
+
+    static async getById(id) {
+        let newItem = new Cart();
+        newItem.id = id;
+        await newItem.load();
+
+        return newItem;
+    }
+}

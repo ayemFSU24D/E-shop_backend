@@ -179,6 +179,32 @@ app.get("/reviews_by_product/:product_id",async(req,res)=>{
     res.send(orders)
   })
   
+
+  app.post("/orders/",async(req,res)=>{    //------------fungerar ---------- 
+   let order= req.body
+
+   
+    /*
+    newProduct.name = "Test OOP 2";
+    newProduct.price = 456;
+  
+         await newProduct.save();
+  
+         res.send({"id": newProduct.id});
+  
+         let order = new Order();
+         
+         let lineItem = order.addProduct(newProduct, 3);
+         
+         lineItem.remove();
+         lineItem.setAmount(5);
+         lineItem.totalPrice();
+         
+        let savedOrder= await order.save();
+         */
+        res.send(savedOrder)
+  })
+
   
   app.get("/lineitems/", async(req,res)=>{    //-----------fungerar med ObjectOrienterat----------
     console.log("urlen körs")
