@@ -85,25 +85,31 @@ export default class DatabaseObject{
        async save() {
             let collection = await client.getCollection(this.getCollection());
             let data = this.getSaveData();
-    
+            
             if(this.id) {
-               let updateResult= await collection.updateOne({_id: this.id}, {$set: data})
+                let updateResult= await collection.updateOne({_id: this.id}, {$set: data})
                 return updateResult;
             }
             else {
                 let insertResult = await collection.insertOne(data);
-    
+                
                 this.id = insertResult.insertedId;
                 
                 return insertResult;
             }
-                /* return this.id; */
+            /* return this.id; */
         }  
-
-       
         
-
         
+        
+        
+        async  deleteOne(id) {
+            
+            let collection = await client.getCollection(this.getCollection())
+            let objectid=client.toObjectId(id)
+            let product= await collection.deleteOne({ _id: objectid});
+            return product;
+    }
         
         
        
