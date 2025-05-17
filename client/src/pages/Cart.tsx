@@ -1,9 +1,9 @@
 import { useContext } from "react";
 import { CartContext } from "../contexts/CartContext";
-import { CartItem } from "../models/cart/Cartitem";
 import { ProductExt } from "../models/products/Product";
 import { CartACtionType } from "../redusers/CartReduser";
 import { useNavigate } from "react-router";
+import { CartItem } from "../models/cart/Cartitem";
 
 
 export const Cart = () => {
@@ -22,7 +22,7 @@ export const Cart = () => {
     const handleChangeQuantity = (product: ProductExt, quantity: number) => {
       cartDispatch({
         type: CartACtionType.CHANGE_QUANTITY,
-        payload: new CartItem(product, quantity)
+        payload: new CartItem(product, quantity, product.image)
       })
     }
   
@@ -59,6 +59,10 @@ export const Cart = () => {
                 <li key={item.product.id}>
                   <div className='flex justify-between items-center p-2'>
                     <h3>{item.product.name}</h3>
+                    <img src={item.product.image} alt="" style={{
+            maxWidth: "150px", // Maximal bredd på bilden
+            maxHeight: "150px", // Maximal höjd på bilden
+            objectFit: "contain"}}/>
                     <div>
                       <button onClick={() => handleChangeQuantity(item.product, 1)}>+</button>
                       <button onClick={() => handleChangeQuantity(item.product, -1)}>-</button>

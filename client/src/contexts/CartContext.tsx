@@ -1,38 +1,62 @@
-import { createContext, Dispatch, PropsWithChildren, useReducer } from "react";
+import {
+  createContext,
+  Dispatch,
+  PropsWithChildren,
+  useEffect,
+  useReducer,
+} from "react";
 import { CartItem } from "../models/cart/Cartitem";
 import { CartReducer, ICartAction } from "../redusers/CartReduser";
 
-
-
-interface ICartContext{
-   totalItems: number;
-    cart:CartItem[];
-    cartDispatch:Dispatch<ICartAction>
-
+// Typ för contexten
+interface ICartContext {
+  totalItems: number;
+  cart: CartItem[];
+  cartDispatch: Dispatch<ICartAction>;
 }
 
-
-
-export const CartContext=createContext<ICartContext>({
+// Skapa context
+export const CartContext = createContext<ICartContext>({
   totalItems: 0,
-    cart:[],
-    cartDispatch:()=>{
-        return;
-    }
-})
-const initialCartState = {
   cart: [],
-  totalItems: 0,
+  cartDispatch: () => {},
+});
+
+// 🔄 Hämta initialt tillstånd från localStorage
+const getInitialCartState = () => {
+  const saved = localStorage.getItem("cart");
+  if (saved) {
+    const cart: CartItem[] = JSON.parse(saved);
+    return {
+      cart,
+      totalItems: cart.reduce((sum, item) => sum + item.quantity, 0),
+    };
+  }
+  return { cart: [], totalItems: 0 };
 };
 
-export const CartProvider = ({children}: PropsWithChildren) => {
-    const [ state, cartDispatch] = useReducer(CartReducer, initialCartState);
+export const CartProvider = ({ children }: PropsWithChildren) => {
+  const [state, cartDispatch] = useReducer(
+    CartReducer,
+    undefined,
+    getInitialCartState
+  );
+
   
-    return (
-      <CartContext.Provider value={{cart: state.cart,
-        totalItems: state.totalItems, cartDispatch}}>
-        {/* // RouterProvider comes in here though children */}
-        {children} 
-      </CartContext.Provider>
-    )
-  }
+  useEffect(() => {
+    localStorage.setItem("cart", JSON.stringify(state.cart));
+  }, [state.cart]);
+
+  return (
+    <CartContext.Provider
+      value={{
+        cart: state.cart,
+        totalItems: state.totalItems,
+        cartDispatch,
+      }}
+    >
+      {children}
+    </CartContext.Provider>
+  );
+};
+

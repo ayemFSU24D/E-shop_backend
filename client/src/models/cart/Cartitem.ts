@@ -4,7 +4,8 @@ import { ProductExt } from "../products/Product";
 export class CartItem {
   constructor(
     public product: ProductExt,
-    public quantity: number
+    public quantity: number,
+    public image:string
   ) {}
 }
 
