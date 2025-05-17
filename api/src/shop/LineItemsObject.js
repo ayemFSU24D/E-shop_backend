@@ -19,7 +19,7 @@ export default class LineItemsObject extends DatabaseObject {
 
     }
 
-    getSaveData() {
+    getSaveData() {//--den är som setupFromDatabase() fast för att spara ner data i DB
         let saveData = this.getBaseSaveData();
 
         this.addLineItemsToSaveData(saveData);
@@ -73,18 +73,6 @@ export default class LineItemsObject extends DatabaseObject {
     
     }
 
-getPricesFromDb(){  //AETODO
-
-    let lineItems= new LineItemsObject()
-    lineItems = req.lineItems.map(item => {
-  const product = db.getProduct(item.productId);
-  return {
-      ...item,
-      unitPrice: product.price,
-      totalPrice: product.price * item.amount
-    };
-});
-}
 
 
 };

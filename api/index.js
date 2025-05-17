@@ -1,4 +1,3 @@
-import { MongoClient, ObjectId  } from "mongodb";
 
 import Product from "./src/shop/Product.js";
 import User from "./src/shop/User.js";
@@ -52,9 +51,23 @@ let connectToMongo= async function(){
   });  
                                                   //------------fungerar med ObjectOrienterat----------
   app.post("/products/add", async (req, res) => { //-------fungerar i Insomnia-------
+   
     let data= req.body
-    let newProduct = new Product();
+    let newProduct = new Product();//--at skriva data i Product hjälper inte
+
     newProduct.setupFromDatabase(data)
+    
+      let result=  await newProduct.save(); 
+      /* res.send({ message: "Produkt tillagd", product: newProduct }); */
+      res.send(result);
+    });  
+  app.post("/products/add/:id", async (req, res) => { //-------fungerar i Insomnia-------
+    let id=  req.params.id import Order from "./src/shop/Order.js";
+    let data= req.body
+    let newProduct = new Product();//--at skriva data i Product hjälper inte
+
+    newProduct.setupFromDatabase(data)
+    newProduct._id=id
      
       
       let result=  await newProduct.save(); 
@@ -96,10 +109,10 @@ let connectToMongo= async function(){
               //   console.log(result)
               res.send(result);})
     
-    app.post("/products/",async(req,res)=>{
+    /* app.post("/products/",async(req,res)=>{
       
       
-    })
+    }) */
     
     app.get("/products/:id",async(req,res)=>{    //------------fungerar med ObjectOrienterat----------
       let id=  req.params.id 
@@ -174,15 +187,56 @@ app.get("/reviews_by_product/:product_id",async(req,res)=>{
   })
   
   
-  app.get("/orders/",async(req,res)=>{    //------------fungerar ---------- 
-    let orders= await client.findAll("orders");
-    res.send(orders)
+  app.get("/orders/",async(req,res)=>{    //------------fungerar med OOP ---------- 
+   /*  let orders= await client.findAll("orders");
+   res.send(orders) */
+   
+   let orders= await Order.getAll("orders");
+   res.send(orders)
+
   })
+
+  app.post("/orders/add", async (req, res) => { //-------fungerar med OOP------
+    
+    let data= req.body
+    let newOrder = new Order()
+
+    newOrder.setupFromDatabase(data)
+      let result=  await newOrder.save(); 
+      res.send(result);
+    }); 
+
+
+  app.post("/orders/update/:id", async (req, res) => { //-------AETODO: updatera order(lineitems)------
+     let id=  req.params.id /* 682712c741bd406f6948a600 */
+    let data= req.body
+    let newOrder = new Order()
+
+    newOrder.setupFromDatabase(data)
+    newOrder._id=id
+     
+      
+      let result=  await newOrder.save(); 
+      res.send(result);
+
+    }); 
+
+
   
-
-  app.post("/orders/",async(req,res)=>{    //------------fungerar ---------- 
-   let order= req.body
-
+  app.get("/orders/:id",async(req,res)=>{  //------------fungerar med OOP ----------
+    
+   /*  let id="68223156b7a01b09a275d454"  */
+    let id= req.params.id
+    let order=await Order.getOne(id);
+    res.send(order)
+  }  )  
+  
+  app.post("/orders/update/:id",async(req,res)=>{ //---AETODO: hänta osh updatera order
+    /* let order= req.body */
+    let id="68223156b7a01b09a275d454"  /*  req.params.id  */
+    let order=await Order.getOne(id);
+    res.send(order)   
+    
    
     /*
     newProduct.name = "Test OOP 2";
