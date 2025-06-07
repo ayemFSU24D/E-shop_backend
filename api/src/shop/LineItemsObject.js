@@ -6,7 +6,8 @@ export default class LineItemsObject extends DatabaseObject {
         super();
 
         this.lineItems = [];
-        this.totalPrice=0
+        
+        
     }
 
     getBaseSaveData() {
@@ -14,21 +15,45 @@ export default class LineItemsObject extends DatabaseObject {
     }
 
     addLineItemsToSaveData(saveData) {
-        saveData["lineItems"] = this.lineItems;
-        saveData["totalPrice"]= this.totalPrice;
+        if (Array.isArray(this.lineItems) && this.lineItems.length > 0) {
+   
+            saveData["lineItems"] = this.lineItems.map(item => {
+                return {
+                    product_id: item.product_id,
+                    product_name: item.product_name,
+                    quantity: item.quantity,
+                    unit_price: item.unit_price,
+                    id: item.id // om du vill spara din slumpade id också
+                };
+            });
+        } else(
 
+            saveData["lineItems"] = this.lineItems
+        )
+  //---order_items: OrderItem[];--så kommer från frontend
     }
 
     getSaveData() {//--den är som setupFromDatabase() fast för att spara ner data i DB
         let saveData = this.getBaseSaveData();
-
+        
         this.addLineItemsToSaveData(saveData);
-
+        
         return saveData;
     }
+    
+    setupFromDatabase(){//AE todo---verkar inte fungera. Den ska bara överridas i order?
+        let getData = this.getBaseDBData();
+        
+        this.getLineItemsToData(getData);
+        
+        return getData;
 
-    addProduct(product, amount) {
-        let newLineItem = new LineItem(product, amount);
+    }
+    
+   
+
+    addProduct(product, quantity) {
+        let newLineItem = new LineItem(product, quantity);
         newLineItem.id = Math.round(10000000000*Math.random()); //METODO: better id
         newLineItem.owner = this;
         this.lineItems.push(newLineItem);
@@ -38,7 +63,7 @@ export default class LineItemsObject extends DatabaseObject {
 
     getLineItem(id) {
         for(let i = 0; i < this.lineItems.length; i++) {
-            if(this.lineItems[i].id === id) {
+            if(this.lineItems[i]._id === id) {
                 return this.lineItems[i];
             }
         }
@@ -64,15 +89,8 @@ export default class LineItemsObject extends DatabaseObject {
     }
 
     
-    totalPrice(){
-    
-      let sum = this.lineItems.reduce((sum, item) => sum + item.getTotalItemPrice(), 0);
-    return {
-      totalPrice: sum
-    };
-    
-    }
-
-
+    totalPrice() {
+  return this.lineItems.reduce((sum, item) => sum + item.getTotalItemPrice(), 0);
+}
 
 };
