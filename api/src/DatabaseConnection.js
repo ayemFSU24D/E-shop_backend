@@ -34,7 +34,10 @@ class MongoDBClient {
     return this.db.collection(name);
   }
 
-
+async update(collectionName, filter, update) {
+    const collection = await this.getCollection(collectionName);
+    return await collection.updateOne(filter, update);
+}
 
 
   async findAll(collectionName, filter = {}) {
