@@ -22,7 +22,7 @@ export const OrderDetails=()=>{
         getData();
     }, [id]);
 
-  const handleUppdate=(id:string, item_id:number)=>{
+  const handleUppdate=(id:string, item_id:string)=>{
     navigate(`/admin/orders/order-items/${id}/${item_id}`)
   }
 
