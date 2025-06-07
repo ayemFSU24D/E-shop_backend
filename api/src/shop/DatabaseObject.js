@@ -11,18 +11,13 @@ export default class DatabaseObject{
         return null;
     }
 
-    /* async getDatabaseData(){   //------------hämtar collectionen i array men möjlighet query (filter)
-        let data= await client.findAll(this.getCollection(),{"_id":this._id})
-        return data
-    } */
-
- 
         async getDatabaseData(parameter){
             /* let query={"product_id":this.product_id} */
             let data= await client.findAll(this.getCollection(),parameter)
+            console.log("getDatabaseData", data);
                 return data
             }
-       /*  console.warn("setupFromDatabase should be overriden", this); */
+     
         
     
 
@@ -30,16 +25,13 @@ export default class DatabaseObject{
         console.warn("setupFromDatabase should be overriden", this);
     }
     
-    /* async load(){  //---hämtar data om vis document
-        let data= await this.getDatabaseData();
-        this.setupFromDatabase(data[0])
-        console.log(this);
-    } */
 
     async load(parameter) {  //----hämtar bara en filterat dokument efter vis parameter
         let data= await this.getDatabaseData(parameter);
         console.log("testar data",data[0], data);
-        
+        if (!data || data.length === 0) {
+        throw new Error("Document not found");
+    }
         this._id = data[0]._id;
         this.setupFromDatabase(data[0])
         console.log(this);
@@ -72,36 +64,39 @@ export default class DatabaseObject{
 
 
 
-
+                                            //---anv'nds inte fr[n min frontend]
     static async getAllByOrderId(data) {     //---Hämtar filterat LISTA[] efter vis parameter, men ska skrivas i specifa sidor(inte i basklassen)
         console.warn("setupFromDatabase should be overriden", this);
         }
 
-        getSaveData() {
-            console.warn("Does not have save data", this);
-            return {};
-        }
+    getSaveData() {
+        console.warn("Does not have save data", this);
+        return {};
+    }
     
-       async save() {
+
+    
+    async save() {  //--fungerar inte om man vill push till redan befintlig [] i db
             let collection = await client.getCollection(this.getCollection());
             let data = this.getSaveData();
-            
-            if(this.id) {
-                let updateResult= await collection.updateOne({_id: this.id}, {$set: data})
+            console.log(data)
+            if(this._id) {
+                let objectid=client.toObjectId(this._id)
+                console.log(objectid)
+                let updateResult= await collection.updateOne({_id: objectid}, {$set: data})// skriver över de befintliga egenskaper(dvs kan inte push till redan befintlig [] i db) )
+                /* { $push: { lineItems: { $each: [item1, item2] } } }---bara pusha flera items på en gång till befintlig array */
+                console.log(updateResult)
                 return updateResult;
             }
             else {
                 let insertResult = await collection.insertOne(data);
                 
-                this.id = insertResult.insertedId;
+                this._id = insertResult.insertedId;
                 
                 return insertResult;
             }
-            /* return this.id; */
         }  
-        
-        
-        
+    
         
         async  deleteOne(id) {
             
@@ -110,8 +105,5 @@ export default class DatabaseObject{
             let product= await collection.deleteOne({ _id: objectid});
             return product;
     }
-        
-        
-       
-
+    
 }
