@@ -58,38 +58,55 @@ import { ObjectId } from "mongodb";
            
            
            //---------------------------------------Ny----------------------------------
- export default class LineItem {
-   constructor(product, amount) {
-     this.id = null;
-     this.product = product;
-     this.amount = amount;
-     this.price = this.product.price;
+  export default class LineItem {
+   constructor(product, quantity) {
+     this._id = null;
+     this.product_id =  new ObjectId(product.product_id)
+     this.product_name = product.product_name;
+     this.quantity = quantity;
+     this.unit_price = product.unit_price;
      this.owner = null;
     }
+
+  
+    /* id:number,  //OrderItemById--frontend
+product_id:number,
+product_name:string,
+quantity:number,
+unit_price:number */
+
+     /* order_id: JSON.stringify(orderID.insertedId),  // Från frontend
+        order_items: cart.map((c) => ({
+          order_id: orderID.insertedId,  // Det här borde vara samma som order_id
+          product_id: c.product.id,
+          product_name: c.product.name,
+          quantity: c.quantity,
+          unit_price: c.product.price,
+          created_at: JSON.stringify(c.product.created_at) */
     
     remove() {
       this.owner.removeLineItem(this);
     }
     
-    setAmount(amount) {
-      this.amount = amount;
+    setAmount(quantity) {
+      this.quantity = quantity;
     }
     
     decreaseAmount(n) {
-      if (n >= this.amount) {
+      if (n >= this.quantity) {
         this.remove(); // ta bort raden helt om du försöker minska för mycket
       } else {
-        this.amount -= n;
+        this.quantity -= n;
       }
     }
     increaseAmount(n) {
-  this.amount += n;
+  this.quantity += n;
 }
 
 
 
     getTotalItemPrice() {
-      return this.price * this.amount;
+      return this.unit_price * this.quantity;
     }
   }
   
