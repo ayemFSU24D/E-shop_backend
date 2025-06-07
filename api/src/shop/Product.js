@@ -65,6 +65,47 @@ export default class Product extends DatabaseObject{
        }
       
       
+static async increaseStock(productId, quantity) {
+  const productsCollection = await client.getCollection("products");
+  const result = await productsCollection.updateOne(
+    { _id: new ObjectId(productId) },
+    { $inc: { stock: quantity } }  // notera plus!
+  );
+  if (result.matchedCount === 0) {
+    console.warn(`Produkt med ID ${productId} hittades inte`);
+    return { error: "Produkt ej hittad" };
+  }
+  return { success: true };
+}
+
+
+static async decreaseStock(productId, quantity) {
+  try {
+    if (!ObjectId.isValid(productId)) {
+      console.error(`Invalid ObjectId: ${productId}`);
+      return { error: "Invalid ObjectId" };
+    }
+
+    const productsCollection = await client.getCollection("products");
+
+    const result = await productsCollection.updateOne(
+      { _id: new ObjectId(productId) },
+      { $inc: { stock: -quantity } }
+    );
+
+    if (result.matchedCount === 0) {
+      console.warn(`Product with ID ${productId} not found`);
+      return { error: "Product not found" };
+    }
+
+    return { success: true };
+  } catch (err) {
+    console.error("Error decreasing stock:", err);
+    return { error: "Failed to decrease stock" };
+  }
+}
+
+
 
     
 
