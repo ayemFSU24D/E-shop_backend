@@ -25,10 +25,17 @@ export class Customer{
 	"country":"Sweden"
 } */
 
+ export class ExistingCustomer{
+  constructor(
+    public insertedId:string,
+    public message:string
+  ){}
+ } 
+
     export class CustomersExt extends Customer{
         constructor(
       
-        public  id:number,
+        public  _id:number,
          firstname:string,
          lastname: string,
          email:string,

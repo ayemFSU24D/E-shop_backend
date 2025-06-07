@@ -3,7 +3,7 @@ import { OrderItemById } from "./OrderItemById"
 
 export type OrderById={
     
-        id: string,
+        _id: string,
         customer_id: number,
         total_price: number,
         payment_status: string,

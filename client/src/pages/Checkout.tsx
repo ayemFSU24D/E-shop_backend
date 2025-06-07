@@ -4,14 +4,14 @@ import React, { useEffect, useState } from "react";
 
 import { CartItem } from "../models/cart/Cartitem";
 import { AddCustomers } from "../components/customers/AddCustomers";
-import { Customer, ExistingCustomer } from "../models/customers/Customer";
+import { Customer, CustomersExt, ExistingCustomer } from "../models/customers/Customer";
 import { createCustomer,createOrder} from "../services/ShopService";
 
 import {Order, OrderId } from "../models/orders/Order";
 import { OrderItem } from "../models/orders/OrderItem";
 
 import { Payload } from "../models/orders/Payload";
-import { GammalCheckout, Stripe } from "./Stripe";
+import { Stripe } from "./Stripe";
 
 // Make sure to call `loadStripe` outside of a component’s render to avoid
 // recreating the `Stripe` object on every render.
@@ -51,7 +51,7 @@ export const Checkout = () => {
     );
     localStorage.setItem(
       "existingCustomer",
-      JSON.stringify(existingCustomer.id)
+      JSON.stringify(existingCustomer.insertedId)
     );
     /*  const data= await getCustomers(); */
     /* setCustomers(data) */
@@ -82,7 +82,7 @@ export const Checkout = () => {
         order_items: cart.map(
         (item) =>
           new OrderItem(
-            item.product.id,
+            item.product._id,
             item.product.name,
             item.quantity,
             item.product.price
@@ -94,8 +94,8 @@ export const Checkout = () => {
       setOrderState(newOrderState);
       
       try {
-        const newOrderId: OrderId = await createOrder(newOrderState);
-       
+        const newOrderId: OrderId = await createOrder(newOrderState);       
+        
         console.log("Order skapad:", newOrderId);
         return newOrderId;
       } catch (error) {
@@ -108,17 +108,17 @@ export const Checkout = () => {
     const handleSubmit = async () => {
       const orderID = await handleOrder();
       console.log(orderID)
-      if (!orderID || !orderID.id) {
+      if (!orderID || !orderID.insertedId) {
         console.error("Order ID saknas.");
         return
       }
       
       
       const newPayload: Payload = {
-        order_id: JSON.stringify(orderID.id),  // Order ID från din data
+        order_id: orderID.insertedId.toString(),
         order_items: cart.map((c) => ({
-          order_id: orderID.id,  // Det här borde vara samma som order_id
-          product_id: c.product.id,
+          order_id: orderID.insertedId,
+          product_id: c.product._id,
           product_name: c.product.name,
           quantity: c.quantity,
           unit_price: c.product.price,

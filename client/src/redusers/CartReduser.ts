@@ -22,11 +22,11 @@ export interface ICartAction {
   
     switch (type) {
       case CartACtionType.ADD_ITEM: {
-        const itemExists = state.cart.find((item) => item.product.id === payload.product.id);
+        const itemExists = state.cart.find((item) => item.product._id === payload.product.id);
   
         const updatedCart = itemExists
           ? state.cart.map((item) =>
-              item.product.id === payload.product.id
+              item.product._id === payload.product.id
                 ? { ...item, quantity: item.quantity + payload.quantity }
                 : item
             )
@@ -41,7 +41,7 @@ export interface ICartAction {
       }
   
       case CartACtionType.REMOVE_ITEM: {
-        const updatedCart = state.cart.filter((item) => item.product.id !== payload.product.id);
+        const updatedCart = state.cart.filter((item) => item.product._id !== payload.product.id);
   
         localStorage.setItem("cart", JSON.stringify(updatedCart));
         return {
@@ -52,7 +52,7 @@ export interface ICartAction {
   
       case CartACtionType.CHANGE_QUANTITY: {
         const updatedCart = state.cart.map((item) =>
-          item.product.id === payload.product.id
+          item.product._id === payload.product.id
             ? {
                 ...item,
                 quantity: Math.max(item.quantity + payload.quantity, 1), // 🛑 Minimum är 1

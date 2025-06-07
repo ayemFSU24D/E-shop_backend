@@ -1,13 +1,17 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useSearchParams } from "react-router";
 import { getOrderListByPaymentId } from "../../services/ShopService";
 import { OrderById } from "../../models/orders/OrderById";
 import { ProductExt } from "../../models/products/Product";
+import { CartContext } from "../../contexts/CartContext";
+import { CartACtionType } from "../../redusers/CartReduser";
 
 export const OrderConfirmation = () => {
   const [searchParams] = useSearchParams();
+  const { cartDispatch } = useContext(CartContext);
   const sessionId = searchParams.get("session_id");
 
+  console.log("sessionId", sessionId);
 
 
   const [orderDetails, setOrderDetails] = useState<OrderById>();
@@ -33,21 +37,22 @@ export const OrderConfirmation = () => {
   
     console.log("Session ID:", sessionId);
     console.log("Already handled?", alreadyHandled);
-  
+    
     if (alreadyHandled) {
       console.log("Skipping stock update for session:", sessionId);
       return;
     }
-  
+    
     const handleOrderDetails = async () => {
       try {
-        const data: OrderById = await getOrderListByPaymentId(sessionId);
+        const data: OrderById = await getOrderListByPaymentId(sessionId);       
         setOrderDetails(data);
   
-        console.log("Fetched order:", data);
-  
+        console.log("Fetched order:", data);       
+        console.log("data.order_items.find", products);
+
         const updatedProducts = products.map((p) => {
-          const orderedItem = data.order_items.find(item => Number(item.product_id) === p.id);
+          const orderedItem = data.order_items.find(item => item.product_id === p._id);
           if (orderedItem) {
             console.log(`Updating stock for ${p.name}: ${p.stock} - ${orderedItem.quantity}`);
             return { ...p, stock: p.stock - orderedItem.quantity };
@@ -58,6 +63,7 @@ export const OrderConfirmation = () => {
         setProducts(updatedProducts);
         localStorage.setItem("products", JSON.stringify(updatedProducts));
         localStorage.setItem(ORDER_HANDLED_KEY, "true");
+        cartDispatch({ type: CartACtionType.RESET_CART, payload: null }); 
   
         console.log("Stock updated and flag set:", ORDER_HANDLED_KEY);
       } catch (err) {
@@ -78,6 +84,10 @@ export const OrderConfirmation = () => {
       <div>{orderDetails?.customer_city}</div>
       <div>{orderDetails?.customer_country}</div>
       <div>{orderDetails?.customer_email}</div>
+      <div>{orderDetails?.customer_postal_code}</div>
+      <div>{orderDetails?.customer_street_address}</div>
+      <div>{orderDetails?.customer_phone}</div>
+      <div>{orderDetails?.customer_phone}</div>
       <p>Session: {sessionId}</p>
       <h3>Beställda produkter:</h3>
       <div>
@@ -85,8 +95,7 @@ export const OrderConfirmation = () => {
           <div key={i.product_id}>
             <div>{i.product_name}</div>
             <div>Antal: {i.quantity}</div>
-            <div>Pris: {i.unit_price}</div>
-            <div>{orderDetails?.total_price}</div>
+            <div>Pris: {i.unit_price}</div>     
           </div>
         ))}
       </div>

@@ -1,6 +1,6 @@
 
 export type OrderItemById={
-id:number,
+id:string,
 product_id:number,
 product_name:string,
 quantity:number,

@@ -30,7 +30,7 @@ export const OrderDetails=()=>{
     const handleOnClick=()=>{
         navigate("/admin/orders")
         setOrdersDetailed({
-            "id": "",
+            "_id": "",
             "customer_id": 0,
             "total_price": 0,
             "payment_status": "",
@@ -56,7 +56,7 @@ export const OrderDetails=()=>{
 
         {ordersDetailed ? (
             <>
-                <p><strong>Order ID:</strong> {ordersDetailed.id}</p>
+                <p><strong>Order ID:</strong> {ordersDetailed._id}</p>
                 <p><strong>Kund:</strong> {ordersDetailed.customer_firstname} {ordersDetailed.customer_lastname}</p>
                 <p><strong>Totalt pris:</strong> {ordersDetailed.total_price} SEK</p>
                 <p><strong>Status:</strong> {ordersDetailed.order_status}</p>
@@ -71,7 +71,7 @@ export const OrderDetails=()=>{
                                 <p><strong>Pris per enhet:</strong> {item.unit_price} SEK</p>
                                 <p><strong>Totalt:</strong> {item.unit_price * item.quantity} SEK</p>
                                 <hr />
-                                <button onClick={()=> handleUppdate(ordersDetailed.id, item.id)}>Ändra antal</button>
+                                <button onClick={()=> handleUppdate(ordersDetailed._id, item.id)}>Ändra antal</button>
                             </li>
                         ))}
                     </ul>

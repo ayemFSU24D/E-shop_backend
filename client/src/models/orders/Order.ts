@@ -31,5 +31,5 @@ export type Order = {
 } */
 
   export interface OrderId {
-    id: number;
+    insertedId: number;    
 }

@@ -28,7 +28,7 @@ export const getProductById = async (id:string): Promise<ProductExt> => {
 
 export const createProduct = async (body: Product): Promise<ProductExt> => {
   const response = await handleRequest<ProductExt>(
-    fetch(`${API_URL}/products`, {
+    fetch(`${API_URL}/products/add`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -66,7 +66,7 @@ export const deleteProduct = async (id: number): Promise<void> => {
 
 export const createCustomer = async (body: Customer): Promise<ExistingCustomer> => {
     const response = await handleRequest<ExistingCustomer>(
-      fetch(`${API_URL}/customers`, {
+      fetch(`${API_URL}/users/add`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -78,12 +78,12 @@ export const createCustomer = async (body: Customer): Promise<ExistingCustomer> 
   };
 
   export const getCustomers = async (): Promise<CustomersExt[]> => {
-    const response = await handleRequest<CustomersExt[]>(fetch(`${API_URL}/customers`));
+    const response = await handleRequest<CustomersExt[]>(fetch(`${API_URL}/users`));
     return response;
   };
   
   export const getCustomerByEmail = async (email:string): Promise<CustomersExt> => {
-    const response = await handleRequest<CustomersExt>(fetch(`${API_URL}/customers/email/${email}`));
+    const response = await handleRequest<CustomersExt>(fetch(`${API_URL}/users/email/${email}`));
     return response; }
 
 
@@ -92,7 +92,7 @@ export const createCustomer = async (body: Customer): Promise<ExistingCustomer> 
 
   export const createOrder = async (body: Order): Promise<OrderId> => {
     const response = await handleRequest<OrderId>(
-      fetch(`${API_URL}/orders`, {
+      fetch(`${API_URL}/orders/add`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -118,7 +118,7 @@ export const createCustomer = async (body: Customer): Promise<ExistingCustomer> 
 
     export const uppdateOrder = async (id: string, body: OrderData): Promise<OrderData> => {
       const response = await handleRequest<OrderData>(
-        fetch(`${API_URL}/orders/${id}`, {
+        fetch(`${API_URL}/orders/update/${id}`, {
           method: "PATCH",
           headers: {
             "Content-Type": "application/json",

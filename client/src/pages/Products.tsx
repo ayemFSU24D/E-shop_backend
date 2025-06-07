@@ -100,7 +100,7 @@ export const Products = () => {
     
     const handleDeleteProduct=async (id:number)=>{
         await deleteProduct(id);
-        const newList=products.filter(p=>p.id!==id);
+        const newList=products.filter(p=>p._id!==id);
         localStorage.setItem("products", JSON.stringify(newList));
         setProducts(newList);
      }

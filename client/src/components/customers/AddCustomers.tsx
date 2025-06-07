@@ -34,7 +34,7 @@ export const AddCustomers=(props:IAddCustomer)=>{
         
         if (response && response.email === customer.email) {
           console.log("Kunden finns redan:", response);
-          localStorage.setItem("existingCustomer", JSON.stringify(response.id));
+          localStorage.setItem("existingCustomer", JSON.stringify(response._id));
           return; 
         }  
         
