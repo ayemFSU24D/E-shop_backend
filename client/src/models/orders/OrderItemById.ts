@@ -1,7 +1,7 @@
 
 export type OrderItemById={
 id:string,
-product_id:number,
+product_id:string,
 product_name:string,
 quantity:number,
 unit_price:number

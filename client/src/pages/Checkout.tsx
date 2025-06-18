@@ -12,6 +12,7 @@ import { OrderItem } from "../models/orders/OrderItem";
 
 import { Payload } from "../models/orders/Payload";
 import { Stripe } from "./Stripe";
+import "../styles/Checkout.css";
 
 // Make sure to call `loadStripe` outside of a component’s render to avoid
 // recreating the `Stripe` object on every render.
@@ -171,42 +172,57 @@ export const Checkout = () => {
   console.log(showStripe)
    
     
-    return (
-      
-      <div id="checkout">
-        <h2 className="text-3xl my-4">Checkout</h2>
+   return (
+  <div className="checkout-page">
+    <h2>Checkout</h2>
 
-        {JSON.stringify(cart)}
-        
+    <div className="checkout-cart-preview">
+      <h3>Varukorgens innehåll:</h3>
+      {cart.length === 0 ? (
+        <p>Varukorgen är tom</p>
+      ) : (
+        <ul>
+          {cart.map((item) => (
+            <li key={item.product._id} style={{ display: "flex", alignItems: "center", gap: "1rem", marginBottom: "1rem" }}>
+              <img
+                src={item.product.image}
+                alt={item.product.name}
+                style={{ maxWidth: "100px", maxHeight: "100px", objectFit: "contain" }}
+              />
+              <div>
+                <p><strong>{item.product.name}</strong></p>
+                <p>Antal: {item.quantity}</p>
+                <p>Pris: {item.product.price} kr</p>
+              </div>
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
 
-          {showCustomerForm ?  (//--------------fungerar
-             
-             <div>
-              <h3>
-                 Fyll i dina uppgifter: 
-                </h3>
-              <AddCustomers addCustomer={addCustomer} />
-             
-              <button onClick={handleSubmit}>Gå till betalning</button>
-            
-            </div>
-            
-          ) : (
-            <p>Inga varor i kundvagnen</p>
-          )}
-          
-          {showStripe ?  (//--------------fungerar
-           <div> 
-             
-           <Stripe/> 
-          </div>
-         ) : (
-           <p>Inga varor i kundvagnen- gömt GammalCheckout  </p>
-           )} 
-        
+    {showCustomerForm ? (
+      <div className="checkout-customer-form">
+        <h3>Fyll i dina uppgifter:</h3>
+        <AddCustomers addCustomer={addCustomer} />
+        <button className="checkout-button" onClick={handleSubmit}>
+          Gå till betalning
+        </button>
       </div>
-   
-  );
+    ) : (
+      <p className="checkout-empty-message">Inga varor i kundvagnen</p>
+    )}
+
+    {showStripe ? (
+      <div className="checkout-stripe-container">
+        <Stripe />
+      </div>
+    ) : (
+      <p className="checkout-empty-message">Inga varor i kundvagnen – gömt GammalCheckout</p>
+    )}
+  </div>
+);
+
+
 };
 
 /* import { useContext } from "react";

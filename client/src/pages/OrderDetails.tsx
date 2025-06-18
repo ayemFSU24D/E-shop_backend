@@ -61,6 +61,11 @@ export const OrderDetails=()=>{
             <>
                 <p><strong>Order ID:</strong> {ordersDetailed._id}</p>
                 <p><strong>Kund:</strong> {ordersDetailed.customer_firstname} {ordersDetailed.customer_lastname}</p>
+                <p><strong>Kund:</strong> {ordersDetailed.customer_city}</p>
+                <p><strong>Kund:</strong> {ordersDetailed.customer_country}</p>
+                <p><strong>Kund:</strong> {ordersDetailed.customer_street_address}</p>
+                <p><strong>Kund:</strong> {ordersDetailed.customer_email}</p>
+                <p><strong>Kund:</strong> {ordersDetailed.customer_phone}</p>
                 <p><strong>Totalt pris:</strong> {ordersDetailed.total_price} SEK</p>
                 <p><strong>Status:</strong> {ordersDetailed.order_status}</p>
                 

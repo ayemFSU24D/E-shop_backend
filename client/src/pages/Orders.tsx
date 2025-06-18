@@ -5,6 +5,7 @@ import {  deleteOrderItem, getOrderList,  uppdateOrderItem } from "../services/S
 import { ShowOrders } from "../components/orders/ShowOrders";
 
 import { OrderItem } from "../models/orders/OrderItem";
+import "../styles/Orders.css";
 
 
 export const Orders = () => {
@@ -58,10 +59,15 @@ export const Orders = () => {
 
                    
 
-     return <>
-  Orders
-  {/* <AddOrder addCustomer={addOrder}/> */}
-  <ShowOrders orders={orders}  handleDeleteOrderItem={handleDeleteOrderItem} handleUppdateOrderItem={handleUppdateOrderItem} />
-   
-    </>
+    return (
+  <div className="orders-page">
+    <h2>Orders</h2>
+    <ShowOrders 
+      orders={orders}
+      handleDeleteOrderItem={handleDeleteOrderItem}
+      handleUppdateOrderItem={handleUppdateOrderItem}
+    />
+  </div>
+);
+
     }

@@ -1,0 +1,74 @@
+/* Orders.css */
+
+.orders-page {
+  max-width: 1000px;
+  margin: 2rem auto;
+  padding: 1rem 2rem;
+  background-color: #fdfdfd;
+  font-family: Arial, sans-serif;
+  color: #333;
+}
+
+.orders-page h2 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  color: #2c3e50;
+  text-align: center;
+}
+
+.order-list {
+  border-top: 1px solid #ccc;
+  margin-top: 1rem;
+}
+
+.order-card {
+  padding: 1rem;
+  margin-bottom: 1rem;
+  background-color: #fafafa;
+  border-radius: 6px;
+  border: 1px solid #e1e1e1;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+}
+
+.order-card h3 {
+  margin-top: 0;
+  color: #34495e;
+}
+
+.order-items {
+  margin-top: 0.5rem;
+  padding-left: 1rem;
+  border-left: 3px solid #3498db;
+}
+
+.order-item {
+  padding: 0.5rem 0;
+  border-bottom: 1px solid #eee;
+}
+
+.order-item:last-child {
+  border-bottom: none;
+}
+
+.order-actions {
+  margin-top: 0.5rem;
+  display: flex;
+  gap: 0.5rem;
+}
+
+.order-actions button {
+  padding: 0.4rem 0.8rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.order-actions .update-btn {
+  background-color: #2980b9;
+  color: white;
+}
+
+.order-actions .delete-btn {
+  background-color: #c0392b;
+  color: white;
+}

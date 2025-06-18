@@ -5,6 +5,7 @@ import { CartContext } from "../contexts/CartContext";
 import { CartAddition, CartItem } from "../models/cart/Cartitem";
 import { getProducts } from "../services/ShopService";
 import  ChatBot  from "../components/ChatBot";
+import "./../Styles/Shop.css";
 
 
 export const Shop = () => {
@@ -96,28 +97,25 @@ export const Shop = () => {
             })
           }
     
-            return<>
-            <div>
-              {products.map((p)=>{
-                return <>
-                <div key={p._id}>
-                    <p>{p.name}</p>
-                    <p>{p.description}</p>
-                    <p>{p.price}</p>
-                    <p>{p.stock}</p>
-                    <p>{p.category}</p>
-                    <p>{p.created_at}</p>
-                    <img src={p.image} alt="" style={{
-                      maxWidth: "300px", // Maximal bredd på bilden
-                      maxHeight: "300px", // Maximal höjd på bilden
-                      objectFit: "contain"}}/>
-                    <button onClick={() => handleAddToCart(p,1)}>Add to Cart</button>
-               
-                    
-                </div>
-                </>
-            })}
-            </div>
-            <ChatBot/>
-            </>
+            return (
+  <>
+    <div className="shop-container">
+      {products.map((p) => (
+        <div key={p._id} className="product-card">
+          <img src={p.image} alt={p.name} />
+          <div className="product-info">
+            <p>{p.name}</p>
+            <p>{p.description}</p>
+            <p>Pris: {p.price} kr</p>
+            <p>Lager: {p.stock}</p>
+            <p>Kategori: {p.category}</p>
+            <p>{new Date(p.created_at).toLocaleDateString()}</p>
+          </div>
+          <button onClick={() => handleAddToCart(p, 1)}>Lägg till i kundvagn</button>
+        </div>
+      ))}
+    </div>
+    <ChatBot />
+  </>
+);
 }

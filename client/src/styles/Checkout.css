@@ -1,0 +1,82 @@
+/* Checkout.css – specifik för Checkout-sidan */
+
+.checkout-page {
+  padding: 2rem;
+  max-width: 900px;
+  margin: 0 auto;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f9f9f9;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.checkout-page h2 {
+  text-align: center;
+  color: #333;
+  margin-bottom: 1rem;
+}
+
+.checkout-cart-preview {
+  background-color: #fff;
+  padding: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  margin-bottom: 1.5rem;
+}
+
+.checkout-cart-preview h3 {
+  margin-bottom: 0.5rem;
+  color: #444;
+}
+
+.checkout-cart-preview pre {
+  background: #f3f3f3;
+  padding: 1rem;
+  border-radius: 4px;
+  overflow-x: auto;
+  font-size: 0.9rem;
+}
+
+.checkout-customer-form {
+  background-color: #fff;
+  padding: 1.5rem;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  margin-bottom: 2rem;
+}
+
+.checkout-customer-form h3 {
+  margin-bottom: 1rem;
+  color: #444;
+}
+
+.checkout-button {
+  background-color: #007bff;
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 1rem;
+  margin-top: 1rem;
+  transition: background-color 0.3s ease;
+}
+
+.checkout-button:hover {
+  background-color: #0056b3;
+}
+
+.checkout-stripe-container {
+  padding: 1.5rem;
+  background: #f0f4ff;
+  border: 1px dashed #007bff;
+  border-radius: 8px;
+  margin-top: 2rem;
+}
+
+.checkout-empty-message {
+  color: #999;
+  text-align: center;
+  font-style: italic;
+  margin-top: 2rem;
+}

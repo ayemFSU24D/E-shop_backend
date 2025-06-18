@@ -5,6 +5,7 @@ import { OrderById } from "../../models/orders/OrderById";
 import { ProductExt } from "../../models/products/Product";
 import { CartContext } from "../../contexts/CartContext";
 import { CartACtionType } from "../../redusers/CartReduser";
+import "../../styles/OrderConfirmation.css";
 
 export const OrderConfirmation = () => {
   const [searchParams] = useSearchParams();
@@ -77,29 +78,37 @@ export const OrderConfirmation = () => {
   
 
   return (
-    <>
-      <h2>Orderbekräftelse</h2>
-      <div>{orderDetails?.customer_firstname} {orderDetails?.customer_lastname}</div>
-      <h3>Leveransadress:</h3>
+  <div className="order-confirmation">
+    <h2>Orderbekräftelse</h2>
+    <div className="customer-info">
+      {orderDetails?.customer_firstname} {orderDetails?.customer_lastname}
+    </div>
+
+    <h3>Leveransadress:</h3>
+    <div className="address">
+      <div>{orderDetails?.customer_street_address}</div>
+      <div>{orderDetails?.customer_postal_code}</div>
       <div>{orderDetails?.customer_city}</div>
       <div>{orderDetails?.customer_country}</div>
       <div>{orderDetails?.customer_email}</div>
-      <div>{orderDetails?.customer_postal_code}</div>
-      <div>{orderDetails?.customer_street_address}</div>
       <div>{orderDetails?.customer_phone}</div>
-      <div>{orderDetails?.customer_phone}</div>
-      <p>Session: {sessionId}</p>
-      <h3>Beställda produkter:</h3>
-      <div>
-        {orderDetails?.order_items.map((i) => (
-          <div key={i.product_id}>
-            <div>{i.product_name}</div>
-            <div>Antal: {i.quantity}</div>
-            <div>Pris: {i.unit_price}</div>     
-          </div>
-        ))}
-      </div>
-      <div>Totalpris: {orderDetails?.total_price}</div>
-    </>
-  );
+    </div>
+
+    {/* <p>Session: {sessionId}</p> */}
+
+    <h3>Beställda produkter:</h3>
+    <div className="order-items">
+      {orderDetails?.order_items.map((i) => (
+        <div key={i.product_id}>
+          <div>{i.product_name}</div>
+          <div>Antal: {i.quantity}</div>
+          <div>Pris: {i.unit_price} kr</div>
+        </div>
+      ))}
+    </div>
+
+    <div className="total-price">Totalpris: {orderDetails?.total_price} kr</div>
+  </div>
+);
+
 };

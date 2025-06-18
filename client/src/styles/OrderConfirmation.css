@@ -1,0 +1,62 @@
+/* OrderConfirmation.css */
+
+.order-confirmation {
+  max-width: 600px;
+  margin: 2rem auto;
+  padding: 1rem 2rem;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  font-family: Arial, sans-serif;
+  color: #333;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.order-confirmation h2 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  color: #2c3e50;
+  text-align: center;
+}
+
+.order-confirmation h3 {
+  font-size: 1.25rem;
+  margin-top: 1.5rem;
+  margin-bottom: 0.75rem;
+  border-bottom: 2px solid #3498db;
+  padding-bottom: 0.25rem;
+  color: #2980b9;
+}
+
+.order-confirmation > div,
+.order-confirmation p {
+  margin-bottom: 0.5rem;
+  line-height: 1.4;
+}
+
+.order-confirmation .address,
+.order-confirmation .customer-info {
+  padding-left: 1rem;
+  border-left: 3px solid #3498db;
+  margin-bottom: 1rem;
+}
+
+.order-confirmation .order-items > div {
+  border-bottom: 1px solid #ddd;
+  padding: 0.5rem 0;
+}
+
+.order-confirmation .order-items > div:last-child {
+  border-bottom: none;
+}
+
+.order-confirmation .order-items div {
+  margin: 0.2rem 0;
+}
+
+.order-confirmation .total-price {
+  font-weight: bold;
+  font-size: 1.1rem;
+  margin-top: 1.5rem;
+  text-align: right;
+  color: #27ae60;
+}

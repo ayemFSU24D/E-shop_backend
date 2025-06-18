@@ -1,0 +1,21 @@
+.show-orders-layout {
+  display: flex;
+  gap: 2rem;
+  align-items: flex-start;
+  padding: 2rem;
+}
+
+.orders-list {
+  flex: 1;
+  max-width: 50%;
+  overflow-y: auto;
+}
+
+.order-details-panel {
+  flex: 1;
+  max-width: 50%;
+  background-color: #ffffff;
+  border-left: 1px solid #ccc;
+  padding-left: 1rem;
+}
+

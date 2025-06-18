@@ -4,6 +4,7 @@ import { ProductExt } from "../models/products/Product";
 import { CartACtionType } from "../redusers/CartReduser";
 import { useNavigate } from "react-router";
 import { CartItem } from "../models/cart/Cartitem";
+import "../styles/Cart.css";
 
 
 export const Cart = () => {
@@ -48,35 +49,36 @@ export const Cart = () => {
   
   
     return (
-      <>
-
-
-<div className="cart mt-20">
-          <h2 className='text-3xl'>Cart</h2>
-          <ul className='border-t-2 border-b-2 my-5'>
-            {
-              cart.map((item) => (
-                <li key={item.product._id}>
-                  <div className='flex justify-between items-center p-2'>
-                    <h3>{item.product.name}</h3>
-                    <img src={item.product.image} alt="" style={{
-            maxWidth: "150px", // Maximal bredd på bilden
-            maxHeight: "150px", // Maximal höjd på bilden
-            objectFit: "contain"}}/>
-                    <div>
-                      <button onClick={() => handleChangeQuantity(item.product, 1)}>+</button>
-                      <button onClick={() => handleChangeQuantity(item.product, -1)}>-</button>
-                    </div>
-                    <p>{item.quantity} X {item.product.price} kr</p>
-                    <button onClick={() => handleRemoveFromCart(item)}className='bg-red-700 text-white'>Remove</button>
-                  </div>
-                </li>
-              ))
-            }
-    
-          </ul>
-          <h3>Total: {totalCartPrice} kr</h3>
-          <button onClick={handleResetCart}>Reset Cart</button>
-          <button onClick={handleCassa}>Gå till kassan</button>
+      <><div className="cart mt-20">
+  <h2>Cart</h2>
+  <ul>
+    {cart.map((item) => (
+      <li key={item.product._id}>
+        <div className="cart-item">
+          <h3>{item.product.name}</h3>
+          <img src={item.product.image} alt={item.product.name} />
+          <div className="cart-quantity-controls">
+            <button onClick={() => handleChangeQuantity(item.product, 1)}>+</button>
+            <button onClick={() => handleChangeQuantity(item.product, -1)}>-</button>
+          </div>
+          <p>{item.quantity} x {item.product.price} kr</p>
+          <button
+            onClick={() => handleRemoveFromCart(item)}
+            className="cart-remove-button"
+          >
+            Remove
+          </button>
         </div>
+      </li>
+    ))}
+  </ul>
+
+  <h3 className="cart-total">Total: {totalCartPrice} kr</h3>
+
+  <div className="cart-actions">
+    <button onClick={handleResetCart}>Reset Cart</button>
+    <button onClick={handleCassa}>Gå till kassan</button>
+  </div>
+</div>
+
         </>   )  }

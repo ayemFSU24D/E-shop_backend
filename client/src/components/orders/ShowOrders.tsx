@@ -1,6 +1,7 @@
 import { Outlet, useNavigate } from "react-router"
 import { OrderList } from "../../models/orders/OrderList"
 import { OrderItem } from "../../models/orders/OrderItem"
+import "../../styles/ShowOrders.css";
 
 
 interface IOrdersProps {
@@ -19,32 +20,33 @@ export const ShowOrders = (props: IOrdersProps) => {
         navigate(`/admin/orders/order-details/${paymentId}`)
     }
 
+    
     return (
-        <>
-            {props.orders.map((o) => (
-                <div key={o._id}>
-                    <p>{o.customer_id}</p>
-                    <p>{o.total_price}</p>
-                    <p>{o.payment_status}</p>
-                    <p>{o.payment_id}</p>
-                    <p>{o.order_status}</p>
-                    <p>{o.created_at}</p>
-                    <p>{o.customer_firstname}</p>
-                    <p>{o.customer_lastname}</p>
-                    <p>{o.customer_email}</p>
-                    <p>{o.customer_phone}</p>
-                    <p>{o.customer_street_address}</p>
-                    <p>{o.customer_postal_code}</p>
-                    <p>{o.customer_city}</p>
-                    <p>{o.customer_country}</p>
-                    <p>{o.customers_created_at}</p>
-                    <button onClick={() => handleOrderDetails(o.payment_id)}>Visa Detaljer</button>
-                </div>
-                
-            ))}
-            <div><Outlet/></div>
-        </>
-    )
+        <div className="show-orders-layout">
+    <div className="orders-list">
+      {props.orders.map((o) => (
+          <div key={o._id} className="order-card">
+            <p>{o.customer_id}</p>
+            <p>{o.total_price}</p>
+            <p>{o.payment_status}</p>
+            <p>{o.payment_id}</p>
+            <p>{o.order_status}</p>
+            <p>{o.created_at}</p>
+            
+         
+
+          <button className="order-details-button" onClick={() => handleOrderDetails(o.payment_id)}>
+            Visa Detaljer
+          </button>
+        </div>
+      ))}
+    </div>
+
+    <div className="order-details-panel">
+      <Outlet />
+    </div>
+  </div>
+);
 }
 
     
