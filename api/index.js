@@ -67,7 +67,7 @@ app.use(cors());
   });
   
   
-  app.get("/products/delete/:id", async (req, res) => { //------------fungerar med ObjectOrienterat----------
+  app.delete("/products/delete/:id", async (req, res) => { //------------fungerar med ObjectOrienterat----------
     let product = new Product();
     let result= await product.deleteOne(req.params.id) // Mongoose
     
