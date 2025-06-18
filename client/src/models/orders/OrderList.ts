@@ -3,11 +3,11 @@
 export type OrderList={
     
 
-     id:number,
+     _id:number,
      customer_id: number,
      total_price:number,
      payment_status:number,
-     payment_id: null,
+     payment_id: string,
      order_status:boolean,
      created_at:string,
         customer_firstname: string,

@@ -83,8 +83,12 @@ app.use(cors());
     
       let result=  await newProduct.save(); 
       /* res.send({ message: "Produkt tillagd", product: newProduct }); */
-      res.send(result);
-    });  
+      const fullProduct = await Product.getOne(newProduct._id.toString());
+
+    res.send(fullProduct);
+
+    });
+
   app.post("/products/add/:id", async (req, res) => { //-------fungerar i Insomnia-------
     let id=  req.params.id 
     let data= req.body

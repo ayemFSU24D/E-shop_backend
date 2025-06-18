@@ -5,7 +5,7 @@ import { ProductExt } from "../../models/products/Product"
 
 interface IProductsProps{
     products:ProductExt[],
-    handleDeleteProduct:(id:number)=>void,
+    handleDeleteProduct:(id:string)=>void,
    
 }
 
@@ -13,12 +13,12 @@ export const ShowProducts=(props:IProductsProps)=>{
     const navigate= useNavigate();
 
 
-    const handleUppdate=(id:number)=>{
+    const handleUppdate=(id:string)=>{
         navigate(`/admin/products/${id}`)
 
     }
 
-    const handleDelete=(id:number)=>{
+    const handleDelete=(id:string)=>{
         props.handleDeleteProduct(id)
 
 

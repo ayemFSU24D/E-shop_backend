@@ -39,7 +39,7 @@ export const createProduct = async (body: Product): Promise<ProductExt> => {
   return response;
 };
 
-export const uppdateProduct = async (id: number, body: ProductExt): Promise<ProductExt> => {
+export const uppdateProduct = async (id: string, body: ProductExt): Promise<ProductExt> => {
   const response = await handleRequest<ProductExt>(
     fetch(`${API_URL}/products/${id}`, {
       method: "PATCH",
@@ -52,7 +52,7 @@ export const uppdateProduct = async (id: number, body: ProductExt): Promise<Prod
   return response;
 };
 
-export const deleteProduct = async (id: number): Promise<void> => {
+export const deleteProduct = async (id: string): Promise<void> => {
   await handleRequest<void>(
     fetch(`${API_URL}/products/delete/${id}`, {
       method: "DELETE",

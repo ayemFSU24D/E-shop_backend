@@ -56,7 +56,7 @@ export const Cart = () => {
           <ul className='border-t-2 border-b-2 my-5'>
             {
               cart.map((item) => (
-                <li key={item.product.id}>
+                <li key={item.product._id}>
                   <div className='flex justify-between items-center p-2'>
                     <h3>{item.product.name}</h3>
                     <img src={item.product.image} alt="" style={{

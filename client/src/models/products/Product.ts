@@ -12,7 +12,7 @@ export class Product{
 
 export class ProductExt extends Product {
   constructor(
-    public _id:number,
+    public _id:string,
     name:string,
     description:string,
     price:number,

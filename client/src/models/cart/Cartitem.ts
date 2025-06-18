@@ -18,3 +18,11 @@ export class CartItem {
   unit_price: number
   created_at: string
 } */
+
+
+  export class CartAddition {
+      constructor(
+    public product: ProductExt,
+    public quantity: number,
+  ) {}
+  }

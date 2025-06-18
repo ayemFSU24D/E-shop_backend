@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import { ProductExt } from "../models/products/Product";
 import { CartACtionType } from "../redusers/CartReduser";
 import { CartContext } from "../contexts/CartContext";
-import { CartItem } from "../models/cart/Cartitem";
+import { CartAddition, CartItem } from "../models/cart/Cartitem";
 import { getProducts } from "../services/ShopService";
 import  ChatBot  from "../components/ChatBot";
 
@@ -92,7 +92,7 @@ export const Shop = () => {
         const handleAddToCart = (product: ProductExt, quantity: number) => {
             cartDispatch({
               type: CartACtionType.ADD_ITEM,
-              payload: new CartItem(product, quantity)
+              payload: new CartAddition(product, quantity)
             })
           }
     
@@ -100,7 +100,7 @@ export const Shop = () => {
             <div>
               {products.map((p)=>{
                 return <>
-                <div key={p.id}>
+                <div key={p._id}>
                     <p>{p.name}</p>
                     <p>{p.description}</p>
                     <p>{p.price}</p>

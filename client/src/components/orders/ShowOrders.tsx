@@ -14,15 +14,15 @@ interface IOrdersProps {
 export const ShowOrders = (props: IOrdersProps) => {
     const navigate = useNavigate()
 
-    const handleOrderDetails = (id: number) => {
+    const handleOrderDetails = (paymentId: string) => {
         
-        navigate(`/admin/orders/order-details/${id}`)
+        navigate(`/admin/orders/order-details/${paymentId}`)
     }
 
     return (
         <>
             {props.orders.map((o) => (
-                <div key={o.id}>
+                <div key={o._id}>
                     <p>{o.customer_id}</p>
                     <p>{o.total_price}</p>
                     <p>{o.payment_status}</p>
@@ -38,7 +38,7 @@ export const ShowOrders = (props: IOrdersProps) => {
                     <p>{o.customer_city}</p>
                     <p>{o.customer_country}</p>
                     <p>{o.customers_created_at}</p>
-                    <button onClick={() => handleOrderDetails(o.id)}>Visa Detaljer</button>
+                    <button onClick={() => handleOrderDetails(o.payment_id)}>Visa Detaljer</button>
                 </div>
                 
             ))}

@@ -1,26 +1,29 @@
 import { useNavigate, useParams } from "react-router";
 import { OrderById } from "../models/orders/OrderById"
 import { useEffect, useState } from "react";
-import { getOrderListDetailed } from "../services/ShopService";
+import { getOrderListByPaymentId, getOrderListDetailed } from "../services/ShopService";
 
 
 
 export const OrderDetails=()=>{
     const[ordersDetailed, setOrdersDetailed]=useState<OrderById>()
-    const{id}=useParams()
+    const{paymentId}=useParams()
 
 
     const navigate=useNavigate()
     useEffect(() => {
         const getData = async () => {
-            if (id) {
-                const data = await getOrderListDetailed(id);
+            if (paymentId) {
+                console.log("Orderdetails paymentId:", paymentId)
+                const data: OrderById = await getOrderListByPaymentId(paymentId);
+                console.log("Orderdetails data:", data)
                 setOrdersDetailed(data);
+                
             }
         };
     
         getData();
-    }, [id]);
+    }, [paymentId]);
 
   const handleUppdate=(id:string, item_id:string)=>{
     navigate(`/admin/orders/order-items/${id}/${item_id}`)

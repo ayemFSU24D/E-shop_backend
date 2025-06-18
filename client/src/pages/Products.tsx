@@ -66,6 +66,7 @@ export const Products = () => {
     
     const addProduct = async(payload: Product) => {
      const newProduct:ProductExt= await createProduct(payload);
+      console.log("🔍 newProduct som kommer tillbaka:", newProduct);
      /* const data = await getProducts(); *///--caching inte möjligt(hämtas annan format producter)
            const addedProductsList=[...products, newProduct]
             setProducts(addedProductsList);
@@ -98,7 +99,7 @@ export const Products = () => {
     
     
     
-    const handleDeleteProduct=async (id:number)=>{
+    const handleDeleteProduct=async (id:string)=>{
         await deleteProduct(id);
         const newList=products.filter(p=>p._id!==id);
         localStorage.setItem("products", JSON.stringify(newList));

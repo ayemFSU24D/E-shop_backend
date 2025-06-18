@@ -83,7 +83,7 @@ export const router = createBrowserRouter([
                   element: <Orders/>,
                   children:[
                       {
-                        path: "/admin/orders/order-details/:id",
+                        path: "/admin/orders/order-details/:paymentId",
                         element: <OrderDetails />,
                     },
                       {
