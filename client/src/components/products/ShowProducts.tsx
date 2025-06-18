@@ -26,7 +26,7 @@ export const ShowProducts=(props:IProductsProps)=>{
 
     return<>{props.products.map((p)=>{
         return <>
-        <div key={p.id}>
+        <div key={p._id}>
             <p>{p.name}</p>
             <p>{p.description}</p>
             <p>{p.price}</p>
@@ -37,8 +37,8 @@ export const ShowProducts=(props:IProductsProps)=>{
             maxWidth: "300px", // Maximal bredd på bilden
             maxHeight: "300px", // Maximal höjd på bilden
             objectFit: "contain"}}/>
-            <button onClick={() => handleUppdate(p.id)}>Uppdate</button>
-            <button onClick={() => handleDelete(p.id)}>Delete</button>
+            <button onClick={() => handleUppdate(p._id)}>Uppdate</button>
+            <button onClick={() => handleDelete(p._id)}>Delete</button>
             
         </div>
         </>

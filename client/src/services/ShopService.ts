@@ -54,7 +54,7 @@ export const uppdateProduct = async (id: number, body: ProductExt): Promise<Prod
 
 export const deleteProduct = async (id: number): Promise<void> => {
   await handleRequest<void>(
-    fetch(`${API_URL}/products/${id}`, {
+    fetch(`${API_URL}/products/delete/${id}`, {
       method: "DELETE",
     })
   );
